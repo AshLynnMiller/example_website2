@@ -10,9 +10,12 @@
       }
     ],
     "date": "2019-03-06",
-    "categories": [],
+    "categories": [
+      "dataviz",
+      "class"
+    ],
     "preview": "posts/2019-03-06-my-first-post/my-first-post_files/figure-html5/plot1-1.png",
-    "last_modified": "2019-03-06T10:51:27-08:00"
+    "last_modified": "2019-03-06T11:03:32-08:00"
   },
   {
     "path": "posts/2019-03-06-my-second-post/",
@@ -25,9 +28,12 @@
       }
     ],
     "date": "2019-03-06",
-    "categories": [],
+    "categories": [
+      "dataviz",
+      "class"
+    ],
     "preview": "posts/2019-03-06-my-second-post/my-second-post_files/figure-html5/plot1-1.png",
-    "last_modified": "2019-03-06T10:59:29-08:00"
+    "last_modified": "2019-03-06T11:03:42-08:00"
   },
   {
     "path": "posts/welcome/",
