@@ -23,7 +23,7 @@ library(tidyverse)
 
 Yet another graph!
 
-```{r plot1}
+```{r plot1, layout = "l-body-outset"}
 
 ggplot(mtcars, aes(mpg, disp)) +
   geom_point(aes(color = wt)) +
