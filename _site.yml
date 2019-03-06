@@ -1,0 +1,12 @@
+name: "example_website2"
+title: "Another example website"
+description: |
+  Another example website
+output_dir: "docs"
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+output: distill::distill_article
