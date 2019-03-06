@@ -33,5 +33,5 @@ ggplot(mtcars, aes(mpg, disp)) +
 
 ```
 
-The end.
+Isn't is pretty?
 
