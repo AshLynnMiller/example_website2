@@ -1,14 +1,14 @@
 ---
-title: "Welcome to Another Example Website"
+title: "Welcome to Ms.Remembering"
 description: |
-  Welcome to our new blog, Another Example Website. We hope you enjoy 
-  reading what we have to say!
+  Welcome to my blog, Ms.Remembering. I hope you enjoy 
+  reading what I have to say!
 author:
-  - name: Nora Jones 
-    url: https://example.com/norajones
-    affiliation: Spacely Sprockets
-    affiliation_url: https://example.com/spacelysprokets
-date: 03-06-2019
+  - name: Ashley L. Miller 
+    url: 
+    affiliation: University of Oregin
+    affiliation_url: https://psychology.uoregon.edu/
+date: 03-12-2019
 output:
   distill::distill_article:
     self_contained: false

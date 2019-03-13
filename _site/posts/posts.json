@@ -1,0 +1,54 @@
+[
+  {
+    "path": "posts/2019-03-06-my-first-post/",
+    "title": "Visualizing Pupillometry Data",
+    "description": "A demonstration on how to plot uncertainty (i.e., standard errors) in pupillometry data.",
+    "author": [
+      {
+        "name": "Ashley L. Miller",
+        "url": {}
+      }
+    ],
+    "date": "2019-03-13",
+    "categories": [
+      "dataviz",
+      "pupillometry",
+      "EDLD final project"
+    ],
+    "preview": "posts/2019-03-06-my-first-post/my-first-post_files/figure-html5/plot1-1.png",
+    "last_modified": "2019-03-13T13:23:53-07:00"
+  },
+  {
+    "path": "posts/welcome/",
+    "title": "Welcome to Ms.Remembering",
+    "description": "Welcome to my blog, Ms.Remembering. I hope you enjoy \nreading what I have to say!",
+    "author": [
+      {
+        "name": "Ashley L. Miller",
+        "url": {}
+      }
+    ],
+    "date": "2019-03-13",
+    "categories": [],
+    "preview": {},
+    "last_modified": "2019-03-13T13:15:30-07:00"
+  },
+  {
+    "path": "posts/2019-03-06-my-second-post/",
+    "title": "My second post",
+    "description": "A short description of the post.",
+    "author": [
+      {
+        "name": "Nora Jones",
+        "url": "https://example.com/norajones"
+      }
+    ],
+    "date": "2019-03-06",
+    "categories": [
+      "dataviz",
+      "class"
+    ],
+    "preview": "posts/2019-03-06-my-second-post/my-second-post_files/figure-html5/plot1-1.png",
+    "last_modified": "2019-03-06T11:20:35-08:00"
+  }
+]
