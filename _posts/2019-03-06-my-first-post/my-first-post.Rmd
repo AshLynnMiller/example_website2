@@ -122,20 +122,17 @@ The data-set I will be using for this demonstration is de-identified and already
 Before beginning, let's first load and inspect the data:
 
 ```{r load_data}
-
 data <- import(here("data", "DeIntentifiedJML2019Data_Exp1.sav"),
                setclass = "tibble") %>% 
   characterize() %>%
   janitor::clean_names()
 
 paged_table(data)
-
 ```
 
 There are many variables in this data-set that I won't need for the purpose of this demonstration. Some of the variable names are also a bit confusing. So, I need to select the key variables of interest and rename the remaining variables:
 
 ```{r tidy_rename}
-
 # Select variables of interest for pupil data
 pupil_data <- data %>%
   select(-sp1_acc:-symspan, 
@@ -155,63 +152,120 @@ pupil_data %<>%
         str_extract(., "bin\\d{1,2}"),
         sep = "")))
 
+paged_table(pupil_data)
 ```
 
-### Plot 1
+There, much better. 
 
-The first plot shows changes in pupil diameter across the 3 second study/encoding phase for each word (i.e., bin). As a starting point, see Fig. 4 (made in Excel) in [Miller et al. (2019)](https://www.sciencedirect.com/science/article/pii/S0749596X18300846) below:
+## Plot 1
 
-
-
-```{r layout="l-body", echo=FALSE}
-
-knitr::include_graphics("/Users/amiller/Documents/Data Science/Winter 2019/example_website2/docs/images/Fig1.jpg")
-
-```
-
-While this plot is perfectly fine for publication purposes, I intend to enhance this plot in a number of ways. But, namely, I want to map uncertainty (previously shown with the standard error bars) via bootstrapping/generation of outcome draws from a fitted model. For more details on this method, I highly recommend reading up on Claus O. Wilke's [ungeviz package](https://wilkelab.org/ungeviz/articles/posterior-draws.html). Another good reference can be located [here](https://wilkelab.org/ungeviz/reference/bootstrapper.html).
+The first plot shows changes in pupil diameter across the 3 second study/encoding phase for each word (i.e., bin). As a starting point, see below (was Fig. 4 in [Miller et al. (2019)](https://www.sciencedirect.com/science/article/pii/S0749596X18300846):
 
 The intended audience for this graph is the **scientific community**, but it is also my hope that interested laypersons may also be able to understand it. The message to be communicated is that when instructed to study a list of words for a later test, pupil diameter increases throughout the study phase for each word. This increase in pupil dilation is believed to reflect an increase in the amount of attentional effort devoted to a given item.
 
-#### Alternative Publication-Friendly Version of Plot 1
+Data prep (some tidying will be required) and code for plot:
 
-Data prep and code for plot:
-
-```{r tidy_data_plot1}
+```{r tidy_data_plot1_DNU, echo=TRUE, eval=FALSE}
 
 # Tidy data:
-plot1_data <- pupil_data %>%
+pupil_data %<>%
   gather(key = word_bin, value = TEPR, w1_bin1:w10_bin15) %>%
   separate(word_bin, c("word", "bin"), sep = "_") %>%
   mutate(word = parse_number(word),
          bin = parse_number(bin)) %>%
   arrange(subject)
 
-#glimpse(plot1_data)
-
-```
-
-```{r plot1}
-
-plot1 <- plot1_data %>%
+plot1_data <- pupil_data %>%
   group_by(bin) %>%
   summarise(mean_TEPR = mean(TEPR, na.rm = TRUE),
             se_TEPR = sundry::se(TEPR))
 
 # This just makes the line begin at x = 0 and y = 0
-plot1 <- rbind(plot1, "1st" = c(0, 0, 0)) 
+plot1_data <- rbind(plot1_data, "1st" = c(0, 0, 0)) 
+
+plot1_OG <- ggplot(plot1_data, aes(x = bin, y = mean_TEPR)) +
+  geom_line() +
+  geom_errorbar(aes(ymin = mean_TEPR - se_TEPR, 
+                    ymax = mean_TEPR + se_TEPR),
+                    color = "gray10",
+                    width = 0.4, 
+                    size = 0.6) +
+  theme_bw(base_size = 12) +
+  # Change labels
+  labs(caption = "Figure 1. Task evoked pupillary response across the 3 second 
+                  study (encoding) phase for each word",
+       y = "Change in Pupil Diameter (mm)",
+       x = "Time (ms)") +
+  # Relabel x axis values to make more sense to reader
+  scale_x_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 
+                                  9, 10, 11, 12, 13, 14, 15),
+                     labels = c("", "400", "", "800", "", 
+                                "1,200", "", "1,600", "", "2,000", 
+                                "", "2,400", "", "2,800", ""),
+                     limits = c(1, NA))
+
+```
+
+```{r tidy_data_plot1, include=FALSE, echo=FALSE, eval=TRUE}
+
+# Tidy data:
+pupil_data %<>%
+  gather(key = word_bin, value = TEPR, w1_bin1:w10_bin15) %>%
+  separate(word_bin, c("word", "bin"), sep = "_") %>%
+  mutate(word = parse_number(word),
+         bin = parse_number(bin)) %>%
+  arrange(subject)
+
+plot1_data <- pupil_data %>%
+  group_by(bin) %>%
+  summarise(mean_TEPR = mean(TEPR, na.rm = TRUE),
+            se_TEPR = sundry::se(TEPR))
+
+# This just makes the line begin at x = 0 and y = 0
+plot1_data <- rbind(plot1_data, "1st" = c(0, 0, 0)) 
+
+plot1_OG <- ggplot(plot1_data, aes(x = bin, y = mean_TEPR)) +
+  geom_line() +
+  geom_errorbar(aes(ymin = mean_TEPR - se_TEPR, 
+                    ymax = mean_TEPR + se_TEPR),
+                    color = "gray10",
+                    width = 0.4, 
+                    size = 0.6) +
+  theme_bw(base_size = 12) +
+  # Change labels
+  labs(caption = "Figure 1. Task evoked pupillary response across the 3 second study (encoding) phase for each word",
+       y = "Change in Pupil Diameter (mm)",
+       x = "Time (ms)") +
+  # Relabel x axis values to make more sense to reader
+  scale_x_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 
+                                  9, 10, 11, 12, 13, 14, 15),
+                     labels = c("", "400", "", "800", "", 
+                                "1,200", "", "1,600", "", "2,000", 
+                                "", "2,400", "", "2,800", ""),
+                     limits = c(1, NA))
+```
+
+```{r tidy_data_plot1USE, fig.height=4.5, fig.width=7.5, fig.align='center'}
+plot1_OG + academic_theme
+```
+
+### Alternative Publication-Friendly Version of Plot 1
+
+While the above plot is perfectly fine for publication purposes, I intend to enhance this plot in a number of ways. But, namely, I want to map uncertainty (previously shown with the standard error bars) via bootstrapping/generation of outcome draws from a fitted model. For more details on this method, I highly recommend reading up on Claus O. Wilke's [ungeviz package](https://wilkelab.org/ungeviz/articles/posterior-draws.html). Another good reference can be located [here](https://wilkelab.org/ungeviz/reference/bootstrapper.html).
+
+```{r plot1, include=FALSE, echo=FALSE, eval=TRUE}
 
 # I want to model uncertainty with bootstrapping:
 row_samps <- rerun(100,
-      sample(seq_len(nrow(plot1)), 
-             nrow(plot1), 
+      sample(seq_len(nrow(plot1_data)), 
+             nrow(plot1_data), 
              replace = TRUE))
 
 # Extracting samples
-d_samps <- map_df(row_samps, ~plot1[., ], .id = "sample")
+d_samps <- map_df(row_samps, ~plot1_data[., ], .id = "sample")
 
 # Plotting both data sources (my data and hypothetical/bootstrapped data)
-plot1_academic <- ggplot(plot1, aes(x = bin, y = mean_TEPR)) +
+plot1_academic <- ggplot(plot1_data, aes(x = bin, y = mean_TEPR)) +
     stat_smooth(aes(group = sample),
               data = d_samps,
               geom = "line",
@@ -247,18 +301,67 @@ plot1_academic <- ggplot(plot1, aes(x = bin, y = mean_TEPR)) +
 
 ```
 
+```{r p1v2_DNU, echo=TRUE, eval=FALSE}
+
+# I want to model uncertainty with bootstrapping:
+row_samps <- rerun(100,
+      sample(seq_len(nrow(plot1_data)), 
+             nrow(plot1_data), 
+             replace = TRUE))
+
+# Extracting samples
+d_samps <- map_df(row_samps, ~plot1_data[., ], .id = "sample")
+
+# Plotting both data sources (my data and hypothetical/bootstrapped data)
+plot1_academic <- ggplot(plot1_data, aes(x = bin, y = mean_TEPR)) +
+    stat_smooth(aes(group = sample),
+              data = d_samps,
+              geom = "line",
+              color = "gray60",
+              fullrange = TRUE,
+              size = 0.1) +
+    geom_smooth(color = "black", se = FALSE, size = 0.9) +
+    theme_bw(base_size = 12) +
+    # Change labels
+    labs(caption = "Figure 1. Task evoked pupillary response across the 3 second 
+                    study (encoding) phase for each word",
+           y = "Change in Pupil Diameter (mm)",
+           x = "Time (ms)") +
+    # Relabel x axis values to make more sense to reader
+    scale_x_continuous(breaks = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 
+                                  9, 10, 11, 12, 13, 14, 15),
+                       labels = c("0", "", "400", "", "800", "", 
+                                  "1,200", "", "1,600", "", "2,000", 
+                                  "", "2,400", "", "2,800", ""),
+                       limits = c(0, NA)) +
+    # Add text specifying when stimuli appear onscreen
+    geom_text(y = 0.04,
+              x = 1.4,
+              color = "black",
+              label = "      To-be-remembered
+              word appears onscreen", 
+              size = 4, 
+              fontface = 2, 
+              family = "Times") +
+    # Add dotted vertical line at x = 0
+    geom_vline(aes(xintercept = 0),
+               color = "gray50", 
+               lty = "dashed")
+
+```
+
 ```{r academic_theme, fig.height=4.5, fig.width=7.5, fig.align='center'}
 # Apply an academic theme to plot
 plot1_academic + academic_theme
 ```
 
-#### Fancier/Prettier Version of Plot 1
+### Fancier/Prettier Version of Plot 1
 
 Here I apply my own theme:
 
-```{r plot1_custom_theme, fig.height=4.5, fig.width=7.5, fig.align='center'}
+```{r plot1_custom_themeUSE, include=FALSE, echo=FALSE, eval=TRUE}
 # Plotting both data sources (my data and hypothetical/bootstrapped data)
-plot1_fun <- ggplot(plot1, aes(x = bin, y = mean_TEPR)) +
+plot1_fun <- ggplot(plot1_data, aes(x = bin, y = mean_TEPR)) +
     stat_smooth(aes(group = sample),
               data = d_samps,
               geom = "line",
@@ -288,31 +391,25 @@ plot1_fun <- ggplot(plot1, aes(x = bin, y = mean_TEPR)) +
     geom_vline(aes(xintercept = 0),
                color = "gray80", 
                lty = "dashed")
+```
 
+```{r plot1_custom_theme, fig.height=4.5, fig.width=7.5, fig.align='center'}
 plot1_fun + bbg_darktheme
 ```
 
-### Plot 2
+Pretty nice, eh? :)
 
-The second plot shows changes in pupil diameter during study as a function of serial position and one's WMC. See Fig. 5 in [Miller et al. 2019](https://www.sciencedirect.com/science/article/pii/S0749596X18300846) below:
+## Plot 2
 
-```{r fig2, layout="l-body", echo=FALSE}
-knitr::include_graphics("docs/images/Fig2.jpg")
-```
+The second plot shows changes in pupil diameter during study as a function of serial position and one's WMC. Before plotting, we need to tidy the data a  bit more:
 
-Again, the intended audience for this graph is the **scientific community**. The message to be communicated is that different patterns of pupil dilation across serial positions emerge based on one's working memory capacity (WMC). Namely, for high WMC individuals (*n* = 33), pupil diameter *increases* as each new word is introduced during the learning phase of the task. Alternatively, for low WMC individuals (*n* = 31), pupil diameter *decreases* as each new word is introduced during learning.
-
-#### Alternative Publication-Friendly Version of Plot 2
-
-Here I re-create this plot but map uncertainty via `geom_ribbon()`:
-
-```{r tidy_data_plot2, fig.height=5, fig.width=6.5, fig.align='center'}
+```{r fig2_prep}
 
 #Reordering factor levels for legend
-plot1_data$span_group <- factor(plot1_data$span_group, 
+pupil_data$span_group <- factor(pupil_data$span_group, 
                                 levels = c("Low", "Medium", "High"))
 
-plot2data <- plot1_data %>%
+plot2data <- pupil_data %>%
   group_by(word, span_group) %>%
   summarise(mean_TEPR = mean(TEPR, na.rm = TRUE),
             se_TEPR = sundry::se(TEPR))
@@ -328,6 +425,82 @@ plot2data %<>%
                              'Medium' = "Medium WMC",
                              'High' = "High WMC"))
 
+```
+
+The following was my starting point (was Fig 5 in [Miller et al. 2019](https://www.sciencedirect.com/science/article/pii/S0749596X18300846)):
+
+```{r fig2DNU, echo=TRUE, eval=FALSE}
+
+plot2_OG <- plot2data %>%
+  filter(WMC != "Medium WMC") %>%
+  ggplot(aes(x = word, y = mean_TEPR)) +
+  geom_line(aes(colour = WMC)) +
+  geom_errorbar(aes(ymin = mean_TEPR - se_TEPR, 
+                    ymax = mean_TEPR + se_TEPR,
+                    color = WMC),
+                    width = 0.4, 
+                    size = 0.6) +
+    scale_fill_grey() +
+    # Add reference line for means of each group
+    geom_line(aes(colour = WMC), size = 1) +
+    scale_colour_grey() +
+    theme_bw(base_size = 12) +
+    # Change labels
+    labs(caption = "Figure 2. Pupillary response across serial positions for low
+                    working memory capacity (WMC) individuals (n = 31), medium 
+                    WMC individuals (n = 69), and high WMC individuals (n = 33).",
+           y = "Change in Pupil Diameter (mm)",
+           x = "Serial position",
+           colour = "WMC") +
+   # Relabel x axis values to make more sense to reader
+   scale_x_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                      labels = c("1", "2", "3", "4", "5", 
+                                 "6", "7", "8", "9", "10"),
+                      limits = c(1, 10)) 
+```
+
+```{r fig2USE, include=FALSE, echo=FALSE, eval=TRUE}
+plot2_OG <- plot2data %>%
+  filter(WMC != "Medium WMC") %>%
+  ggplot(aes(x = word, y = mean_TEPR)) +
+  geom_line(aes(colour = WMC)) +
+  geom_errorbar(aes(ymin = mean_TEPR - se_TEPR, 
+                    ymax = mean_TEPR + se_TEPR,
+                    color = WMC),
+                    width = 0.4, 
+                    size = 0.6) +
+    scale_fill_grey() +
+    # Add reference line for means of each group
+    geom_line(aes(colour = WMC), size = 1) +
+    scale_colour_grey() +
+    theme_bw(base_size = 12) +
+    # Change labels
+    labs(caption = "Figure 2. Pupillary response across serial positions for low working memory capacity 
+(WMC) individuals (n = 31), medium WMC individuals (n = 69), and high WMC 
+individuals (n = 33).",
+           y = "Change in Pupil Diameter (mm)",
+           x = "Serial position",
+           colour = "WMC") +
+   # Relabel x axis values to make more sense to reader
+   scale_x_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                      labels = c("1", "2", "3", "4", "5", 
+                                 "6", "7", "8", "9", "10"),
+                      limits = c(1, 10)) 
+```
+
+```{r fig2FINAL, fig.height=5, fig.width=6.5, fig.align='center'}
+plot2_OG + academic_theme
+```
+
+Note that the legend is a bit confusing, as the order of WMC group doesn't quite map on to the ordering of the lines in the graph (e.g., high WMC is the uppermost line but is listed on the bottom of the legend). 
+
+Again, the intended audience for this graph is the **scientific community**. The message to be communicated is that different patterns of pupil dilation across serial positions emerge based on one's working memory capacity (WMC). Namely, for high WMC individuals (*n* = 33), pupil diameter *increases* as each new word is introduced during the learning phase of the task. Alternatively, for low WMC individuals (*n* = 31), pupil diameter *decreases* as each new word is introduced during learning.
+
+### Alternative Publication-Friendly Version of Plot 2
+
+Next, I aim to improve the legend and map uncertainty via `geom_ribbon()`. I also want to include the medium WMC individuals:
+
+```{r plot2v2USE, include=FALSE, echo=FALSE, eval=TRUE}
 # Plot
 plot2_academic <- ggplot(plot2data, aes(x = word, y = mean_TEPR)) +
     geom_ribbon(aes(ymin = mean_TEPR - se_TEPR, 
@@ -362,17 +535,54 @@ individuals (n = 33).",
                       labels = c("1", "2", "3", "4", "5", 
                                  "6", "7", "8", "9", "10"),
                       limits = c(1, 12)) 
-
-plot2_academic + academic_theme
-
 ```
 
-#### Fancier/Prettier Version of Plot 2
+```{r plot2v2DNU, echo=TRUE, eval=FALSE}
+# Plot
+plot2_academic <- ggplot(plot2data, aes(x = word, y = mean_TEPR)) +
+    geom_ribbon(aes(ymin = mean_TEPR - se_TEPR, 
+                    ymax = mean_TEPR + se_TEPR,
+                    fill = WMC),
+                    alpha = 0.8) +
+    scale_fill_grey() +
+    # Add reference line for means of each group
+    geom_line(aes(colour = WMC), size = 1) +
+    scale_colour_grey() +
+    # Add labels for each WMC group
+    geom_text(data = filter(plot2data, word == '10'),
+            aes(y = mean_TEPR, label = WMC),
+            color = "black",
+            nudge_x = .20,
+            hjust = 0,
+            size = 4,
+            family = "Times",
+            fontface = 2) +
+    theme_bw(base_size = 12) +
+    # Left-align caption
+    theme(legend.position = "none") +
+    # Change labels
+    labs(caption = "Figure 2. Pupillary response across serial positions for low 
+                    working memory capacity (WMC) individuals (n = 31), medium 
+                    WMC individuals (n = 69), and high WMC individuals (n = 33).",
+           y = "Change in Pupil Diameter (mm)",
+           x = "Serial position",
+           colour = "") +
+   # Relabel x axis values to make more sense to reader
+   scale_x_continuous(breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                      labels = c("1", "2", "3", "4", "5", 
+                                 "6", "7", "8", "9", "10"),
+                      limits = c(1, 12)) 
+```
+
+```{r tidy_data_plot2USE, fig.height=5, fig.width=6.5, fig.align='center'}
+plot2_academic + academic_theme
+```
+
+### Fancier/Prettier Version of Plot 2
 
 Now I add some color and apply my own personal theme:
 
-```{r plot2_fun, fig.height=5, fig.width=6.5, fig.align='center'}
-
+```{r plot2_funDNU, include=FALSE, echo=FALSE, eval=TRUE}
 #Specify colors for my own color palette
 outrun <- c("violetred4", "pink", "turquoise4")
 
@@ -408,32 +618,24 @@ individuals (n = 33).",
                       labels = c("1", "2", "3", "4", "5", 
                                  "6", "7", "8", "9", "10"),
                       limits = c(1, 12)) 
+```
 
+```{r ptv3_finalUSE, fig.height=5, fig.width=6.5, fig.align='center'}
 plot2_fun + bbg_darktheme
-
 ```
 
-### Plot 3
+MUCH improved--Am I right?!
 
-The third plot shows changes in pupil diameter as a function of serial position (broken down into Primacy (words 1–3), Mid (words 4–7), and Recency (words 8–10)) and bin (time across the 3 second study phase for each word) based on one's WMC. See Fig. 6 in [Miller et al. 2019](https://www.sciencedirect.com/science/article/pii/S0749596X18300846) below (Note that error bars aren't even provided!):
+## Plot 3
 
-```{r fig3, layout="l-body", echo=FALSE}
-knitr::include_graphics("images/Fig3.jpg")
-```
+The third plot shows changes in pupil diameter as a function of serial position [broken down into Primacy (words 1–3), Mid (words 4–7), and Recency (words 8–10)] and bin, the time across the 3 second study phase for each word, based on one's WMC. Of course, to plot this, we need to tidy the data even more:
 
-The intended audience is once again the **scientific community**, and the plot essentially conveys the same information as the plot above (plot #2). That is, when instructed to study a list of words for a later test, two factors seem to influence how attention is allocated across the study phase for each word (as indexed via pupil dilation): (1) one's WMC and (2) serial position. For high WMC individuals, pupil dilation continues to gradually increase throughout the encoding period for all serial positions, with primacy items (the first few words presented during list presentation; words 1-3) displaying smaller dilations than mid (words 4–7) and recency items (the last few words presented during list presentation; words 8–10). Conversely, low WMC individuals show moderate increases in dilation that appear to plateau near the middle of the encoding period. Moreover, pupil dilation appears to be largest for primacy items and smallest for recency items, despite a gradual increase in dilation for recency items.
-
-#### Alternative Publication-Friendly Version of Plot 3
-
-Here I re-create this plot but map uncertainty/standard errors via `geom_smooth()`:
-
-```{r plot3_academic, fig.align='center'}
-
+```{r fig3_tidy, fig.align='center'}
 # Converting word # to factors
-plot1_data$word <- as.factor(plot1_data$word)
+pupil_data$word <- as.factor(pupil_data$word)
 
 # Breaking down words into primacy, mid, and recency items
-plot3_data <- plot1_data %>% 
+plot3_data <- pupil_data %>% 
   mutate(word = recode(word, '1' = "Primacy Items",
                              '2' = "Primacy Items",
                              '3' = "Primacy Items",
@@ -462,8 +664,102 @@ plot3_data %<>%
                              'Low' = "Low WMC",
                              'Medium' = "Medium WMC",
                              'High' = "High WMC"))
+```
 
+Below is the plot 3's starting point (was Fig 6. in [Miller et al. 2019](https://www.sciencedirect.com/science/article/pii/S0749596X18300846)). Note that error bars aren't even provided!:
 
+```{r fig3_USE, include=FALSE, echo=FALSE, eval=TRUE}
+
+plot3_OG <- plot3_data %>%
+  filter(span_group != "Medium WMC") %>%
+  ggplot(aes(x = bin, y = mean_TEPR, colour = word)) +
+    geom_line(aes(linetype = word)) +
+    scale_linetype_manual(values=c("dotted", "twodash", "solid"),
+                          name  ="Serial Position",
+                          breaks=c("Primacy Items", "Mid Items", "Recency Items"),
+                          labels=c("Primacy", "Mid", "Recency")) +
+    scale_colour_manual(values = c("gray0", "gray50", "gray75"),
+                          name  ="Serial Position",
+                          breaks=c("Primacy Items", "Mid Items", "Recency Items"),
+                          labels=c("Primacy", "Mid", "Recency")) +
+    facet_wrap(~span_group) +
+    theme_bw(base_size = 12) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+          plot.subtitle = element_text(face = "bold", hjust = 0.5),
+          strip.text = element_text(size = 11),
+          legend.position = "bottom") +
+        # Change labels
+        labs(caption = "Figure 3. Pupil diameter as a function of serial position and time across encoding period for low WMC (n = 31), medium WMC 
+(n = 69), and high WMC (n = 33) individuals. Serial position was broken down into Primacy (words 
+1–3), Mid (words 4–7), and Recency (words 8–10) for graphical purposes only.",
+             y = "Changes in Pupil Diameter (mm)",
+             x = "Time (ms)") +
+        # Adjust/Relabel x axis values to make more sense to reader
+        scale_x_continuous(breaks = c(0, 2, 4, 6, 8, 10, 12, 14),
+                           labels = c("0", "400", "800", "1,200", 
+                                      "1,600", "2,000", "2,400","2,800"),
+                           limits = c(0, NA)) +
+        # Adjust/Relabel y axis values to make more sense to reader
+        scale_y_continuous(breaks = c(-0.10, -0.05, 0.00, 0.05, 0.10, 0.15),
+                           label = c("-0.10", "-0.05", "0.00", 
+                                     "0.05", "0.10", "0.15"),
+                           limits = c(-0.10, 0.15))
+
+plot3_OG + academic_theme
+
+```
+
+```{r plot3DNU, echo=TRUE, eval=FALSE}
+plot3_OG <- plot3_data %>%
+  filter(span_group != "Medium WMC") %>%
+  ggplot(aes(x = bin, y = mean_TEPR, colour = word)) +
+    geom_line(aes(linetype = word)) +
+    scale_linetype_manual(values=c("dotted", "twodash", "solid"),
+                          name  ="Serial Position",
+                          breaks=c("Primacy Items", "Mid Items", "Recency Items"),
+                          labels=c("Primacy", "Mid", "Recency")) +
+    scale_colour_manual(values = c("gray0", "gray50", "gray75"),
+                          name  ="Serial Position",
+                          breaks=c("Primacy Items", "Mid Items", "Recency Items"),
+                          labels=c("Primacy", "Mid", "Recency")) +
+    facet_wrap(~span_group) +
+    theme_bw(base_size = 12) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1),
+          plot.subtitle = element_text(face = "bold", hjust = 0.5),
+          strip.text = element_text(size = 11),
+          legend.position = "bottom") +
+        # Change labels
+        labs(caption = "Figure 3. Pupil diameter as a function of serial position
+                        and time across encoding period for low WMC (n = 31), 
+                        medium WMC (n = 69), and high WMC (n = 33) individuals. 
+                        Serial position was broken down into Primacy (words 1–3), 
+                        Mid (words 4–7), and Recency (words 8–10) for graphical 
+                        purposes only.",
+             y = "Changes in Pupil Diameter (mm)",
+             x = "Time (ms)") +
+        # Adjust/Relabel x axis values to make more sense to reader
+        scale_x_continuous(breaks = c(0, 2, 4, 6, 8, 10, 12, 14),
+                           labels = c("0", "400", "800", "1,200", 
+                                      "1,600", "2,000", "2,400","2,800"),
+                           limits = c(0, NA)) +
+        # Adjust/Relabel y axis values to make more sense to reader
+        scale_y_continuous(breaks = c(-0.10, -0.05, 0.00, 0.05, 0.10, 0.15),
+                           label = c("-0.10", "-0.05", "0.00", 
+                                     "0.05", "0.10", "0.15"),
+                           limits = c(-0.10, 0.15))
+```
+
+```{r fig.align='center'}
+plot3_OG + academic_theme
+```
+
+The intended audience is yet again the **scientific community**, and the plot essentially conveys the same information as the plot above (plot #2). That is, when instructed to study a list of words for a later test, two factors seem to influence how attention is allocated across the study phase for each word (as indexed via pupil dilation): (1) one's WMC and (2) serial position. For high WMC individuals, pupil dilation continues to gradually increase throughout the encoding period for all serial positions, with primacy items (the first few words presented during list presentation; words 1-3) displaying smaller dilations than mid (words 4–7) and recency items (the last few words presented during list presentation; words 8–10). Conversely, low WMC individuals show moderate increases in dilation that appear to plateau near the middle of the encoding period. Moreover, pupil dilation appears to be largest for primacy items and smallest for recency items, despite a gradual increase in dilation for recency items.
+
+### Alternative Publication-Friendly Version of Plot 3
+
+Here I re-create this plot but map uncertainty/standard errors via `geom_smooth()`:
+
+```{r plot3_academic, fig.align='center'}
 plot3_academic <- ggplot(plot3_data, aes(x = bin, y = mean_TEPR, colour = word)) +
     geom_smooth(aes(linetype = word)) +
     scale_linetype_manual(values=c("dotted", "twodash", "solid"),
@@ -501,7 +797,7 @@ plot3_academic + academic_theme
 
 ```
 
-#### Fancier/Prettier Version of Plot 3
+### Fancier/Prettier Version of Plot 3
 
 This time, not only am I going to apply my own theme, but I will map uncertainty with a hypothetical outcome plot (HOP). Basically, like plot 1, uncertainty is mapped via generation of outcome draws from a fitted model. HOPS just animate this process so that the audience can observe changes across hypothetical samples.
 
@@ -548,7 +844,7 @@ plot3_fun + bbg_darktheme
 
 ```
 
-### BONUS Plot 4
+## BONUS Plot 4
 
 This final plot is meant to be more digestible for the **general public**; it doesn't examine pupillometry data. Rather, the plot shows the relation between recall accuracy and strategy type. The intended message to be communicated is that strategies that rely on more elaborative mental processes are associated with better memory performance.
 
