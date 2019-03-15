@@ -1,9 +1,18 @@
 ---
-title: "About this blog"
+title: "About me and this blog"
 description: |
-  Some additional details about the blog
+  Some additional details about myself and the blog :)
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
+
+The purpose of this blog is two-fold:
+
+  + Help researchers better visualize their findings for a variety of audiences
+  + Help increase reproducability of my own research by providing researches with necessary `R` code
+
+As for myself, I am a fourth-year graduate student in Dr. Nash Unsworth’s Memory and Attention Individual Differences (MAID) Lab. I grew up in Idaho and graduated with a BSc in psychology at Idaho State University in December, 2014. In the fall of 2015, I began attending the University of Oregon (UO) as a doctoral student in the cognitive neuroscience program. I completed a MSc at UO in December 2016. 
+
+My research combines correlational and experimental techniques to examine memory and attention processes, as well as individual differences within these processes. Specifically, my research first seeks to address sources of limitations in working memory capacity (WMC) and the ability to control attention in a goal directed manner. I then apply this framework to examine how these limitations impact memory control (e.g., a person’s ability to search their memory) and recall performance. I’ve also begun to examine how a person’s understanding of their own abilities may influence these relationships. That is, how might one’s beliefs about their own memory ability influence the way they allocate attention to items during study, and how might this translate to recall performance at test? Do differential effects arise based on cognitive ability? And how do these factors, in turn, relate to the ability to employ effective encoding strategies and self-generated retrieval cues at retrieval? I leverage behavioral and physiological techniques (pupillometry and eye-tracking) to address these questions.

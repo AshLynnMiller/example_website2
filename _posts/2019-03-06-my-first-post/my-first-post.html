@@ -49,7 +49,7 @@
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["my-first-post_files/bowser-1.9.3/bowser.min.js","my-first-post_files/distill-2.2.21/template.v2.js","my-first-post_files/figure-html5/academic_theme-1.png","my-first-post_files/figure-html5/fig2-1.png","my-first-post_files/figure-html5/fig2FINAL-1.png","my-first-post_files/figure-html5/fig3_USE-1.png","my-first-post_files/figure-html5/plot1_custom_theme-1.png","my-first-post_files/figure-html5/plot1-1.png","my-first-post_files/figure-html5/plot2_fun-1.png","my-first-post_files/figure-html5/plot3_academic-1.png","my-first-post_files/figure-html5/plot3_fun-1.gif","my-first-post_files/figure-html5/plot4-1.png","my-first-post_files/figure-html5/plot4v2-1.png","my-first-post_files/figure-html5/ptv3_finalUSE-1.png","my-first-post_files/figure-html5/tidy_data_plot1-1.png","my-first-post_files/figure-html5/tidy_data_plot1USE-1.png","my-first-post_files/figure-html5/tidy_data_plot2-1.png","my-first-post_files/figure-html5/tidy_data_plot2USE-1.png","my-first-post_files/figure-html5/unnamed-chunk-1-1.png","my-first-post_files/jquery-1.11.3/jquery.min.js","my-first-post_files/pagedtable-1.1/css/pagedtable.css","my-first-post_files/pagedtable-1.1/js/pagedtable.js","my-first-post_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["my-first-post_files/bowser-1.9.3/bowser.min.js","my-first-post_files/distill-2.2.21/template.v2.js","my-first-post_files/figure-html5/academic_theme_print-1.png","my-first-post_files/figure-html5/academic_theme-1.png","my-first-post_files/figure-html5/fig2_print-1.png","my-first-post_files/figure-html5/fig2-1.png","my-first-post_files/figure-html5/fig2FINAL-1.png","my-first-post_files/figure-html5/fig3_USE-1.png","my-first-post_files/figure-html5/p2funv3_print-1.png","my-first-post_files/figure-html5/p3academv2_print-1.png","my-first-post_files/figure-html5/plot1_custom_theme-1.png","my-first-post_files/figure-html5/plot1_print_custom-1.png","my-first-post_files/figure-html5/plot1-1.png","my-first-post_files/figure-html5/plot2_fun-1.png","my-first-post_files/figure-html5/plot3_academic-1.png","my-first-post_files/figure-html5/plot3_fun_print-1.gif","my-first-post_files/figure-html5/plot3_fun-1.gif","my-first-post_files/figure-html5/plot4_print-1.png","my-first-post_files/figure-html5/plot4-1.png","my-first-post_files/figure-html5/plot4v2_print-1.png","my-first-post_files/figure-html5/plot4v2-1.png","my-first-post_files/figure-html5/ptv3_finalUSE-1.png","my-first-post_files/figure-html5/tidy_data_plot1-1.png","my-first-post_files/figure-html5/tidy_data_plot1USE-1.png","my-first-post_files/figure-html5/tidy_data_plot2-1.png","my-first-post_files/figure-html5/tidy_data_plot2USE-1.png","my-first-post_files/figure-html5/unnamed-chunk-1-1.png","my-first-post_files/jquery-1.11.3/jquery.min.js","my-first-post_files/pagedtable-1.1/css/pagedtable.css","my-first-post_files/pagedtable-1.1/js/pagedtable.js","my-first-post_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1113,14 +1113,14 @@ plot1_academic &lt;- ggplot(plot1_data, aes(x = bin, y = mean_TEPR)) +
 <pre class="r"><code>
 # Apply an academic theme to plot
 plot1_academic + academic_theme</code></pre>
-<p><img src="my-first-post_files/figure-html5/academic_theme-1.png" width="720" style="display: block; margin: auto;" /></p>
+<p><img src="my-first-post_files/figure-html5/academic_theme_print-1.png" width="720" style="display: block; margin: auto;" /></p>
 </div>
 <h3 id="fancierprettier-version-of-plot-1">Fancier/Prettier Version of Plot 1</h3>
 <p>Here I apply my own theme:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 plot1_fun + bbg_darktheme</code></pre>
-<p><img src="my-first-post_files/figure-html5/plot1_custom_theme-1.png" width="720" style="display: block; margin: auto;" /></p>
+<p><img src="my-first-post_files/figure-html5/plot1_print_custom-1.png" width="720" style="display: block; margin: auto;" /></p>
 </div>
 <p>Pretty nice, eh? :)</p>
 <h2 id="plot-2">Plot 2</h2>
@@ -1180,12 +1180,12 @@ plot2_OG &lt;- plot2data %&gt;%
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 plot2_OG + academic_theme</code></pre>
-<p><img src="my-first-post_files/figure-html5/fig2FINAL-1.png" width="624" style="display: block; margin: auto;" /></p>
+<p><img src="my-first-post_files/figure-html5/fig2_print-1.png" width="624" style="display: block; margin: auto;" /></p>
 </div>
 <p>Note that the legend is a bit confusing, as the order of WMC group doesn’t quite map on to the ordering of the lines in the graph (e.g., high WMC is the uppermost line but is listed on the bottom of the legend).</p>
 <p>Again, the intended audience for this graph is the <strong>scientific community</strong>. The message to be communicated is that different patterns of pupil dilation across serial positions emerge based on one’s working memory capacity (WMC). Namely, for high WMC individuals (<em>n</em> = 33), pupil diameter <em>increases</em> as each new word is introduced during the learning phase of the task. Alternatively, for low WMC individuals (<em>n</em> = 31), pupil diameter <em>decreases</em> as each new word is introduced during learning.</p>
 <h3 id="alternative-publication-friendly-version-of-plot-2">Alternative Publication-Friendly Version of Plot 2</h3>
-<p>Next, I aim to improve the legend and map uncertainty via <code>geom_ribbon()</code>. I also want to include the medium WMC individuals:</p>
+<p>Next, I aim to improve the legend and map uncertainty via <code>geom_ribbon()</code>. I also want to include the full range of participants, so I will also plot the trend for medium WMC individuals:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 # Plot
@@ -1233,7 +1233,7 @@ plot2_academic + academic_theme</code></pre>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
 plot2_fun + bbg_darktheme</code></pre>
-<p><img src="my-first-post_files/figure-html5/ptv3_finalUSE-1.png" width="624" style="display: block; margin: auto;" /></p>
+<p><img src="my-first-post_files/figure-html5/p2funv3_print-1.png" width="624" style="display: block; margin: auto;" /></p>
 </div>
 <p>MUCH improved–Am I right?!</p>
 <h2 id="plot-3">Plot 3</h2>
@@ -1280,7 +1280,7 @@ plot3_data %&lt;&gt;%
 plot3_OG &lt;- plot3_data %&gt;%
   filter(span_group != &quot;Medium WMC&quot;) %&gt;%
   ggplot(aes(x = bin, y = mean_TEPR, colour = word)) +
-    geom_line(aes(linetype = word)) +
+    geom_line(aes(linetype = word), size = 1.5) +
     scale_linetype_manual(values=c(&quot;dotted&quot;, &quot;twodash&quot;, &quot;solid&quot;),
                           name  =&quot;Serial Position&quot;,
                           breaks=c(&quot;Primacy Items&quot;, &quot;Mid Items&quot;, &quot;Recency Items&quot;),
@@ -1290,7 +1290,7 @@ plot3_OG &lt;- plot3_data %&gt;%
                           breaks=c(&quot;Primacy Items&quot;, &quot;Mid Items&quot;, &quot;Recency Items&quot;),
                           labels=c(&quot;Primacy&quot;, &quot;Mid&quot;, &quot;Recency&quot;)) +
     facet_wrap(~span_group) +
-    theme_bw(base_size = 12) +
+    theme_bw(base_size = 14) +
     theme(axis.text.x = element_text(angle = 45, hjust = 1),
           plot.subtitle = element_text(face = &quot;bold&quot;, hjust = 0.5),
           strip.text = element_text(size = 11),
@@ -1342,9 +1342,12 @@ plot3_academic &lt;- ggplot(plot3_data, aes(x = bin, y = mean_TEPR, colour = wor
           strip.text = element_text(size = 11),
           legend.position = &quot;bottom&quot;) +
         # Change labels
-        labs(caption = &quot;Figure 3. Pupil diameter as a function of serial position and time across encoding period for low WMC (n = 31), medium WMC 
-(n = 69), and high WMC (n = 33) individuals. Serial position was broken down into Primacy (words 
-1–3), Mid (words 4–7), and Recency (words 8–10) for graphical purposes only.&quot;,
+        labs(caption = &quot;Figure 3. Pupil diameter as a function of serial position
+                        and time across encoding period for low WMC (n = 31), 
+                        medium WMC (n = 69), and high WMC (n = 33) individuals. 
+                        Serial position was broken down into Primacy (words 1–3), 
+                        Mid (words 4–7), and Recency (words 8–10) for graphical 
+                        purposes only.&quot;,
              y = &quot;Changes in Pupil Diameter (mm)&quot;,
              x = &quot;Time (ms)&quot;) +
         # Adjust/Relabel x axis values to make more sense to reader
@@ -1356,13 +1359,62 @@ plot3_academic &lt;- ggplot(plot3_data, aes(x = bin, y = mean_TEPR, colour = wor
         scale_y_continuous(breaks = c(-0.10, -0.05, 0.00, 0.05, 0.10, 0.15),
                            label = c(&quot;-0.10&quot;, &quot;-0.05&quot;, &quot;0.00&quot;, 
                                      &quot;0.05&quot;, &quot;0.10&quot;, &quot;0.15&quot;),
-                           limits = c(-0.10, 0.15))
-
+                           limits = c(-0.10, 0.15))</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
 plot3_academic + academic_theme</code></pre>
-<p><img src="my-first-post_files/figure-html5/plot3_academic-1.png" width="720" style="display: block; margin: auto;" /></p>
+<p><img src="my-first-post_files/figure-html5/p3academv2_print-1.png" width="720" style="display: block; margin: auto;" /></p>
 </div>
 <h3 id="fancierprettier-version-of-plot-3">Fancier/Prettier Version of Plot 3</h3>
 <p>This time, not only am I going to apply my own theme, but I will map uncertainty with a hypothetical outcome plot (HOP). Basically, like plot 1, uncertainty is mapped via generation of outcome draws from a fitted model. HOPS just animate this process so that the audience can observe changes across hypothetical samples.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+plot3_fun &lt;- ggplot(plot3_data, aes(x = bin, y = mean_TEPR, colour = word)) +
+      # Generate outcome draws from a fitted model
+      stat_smooth_draws(times = 10,
+                        aes(group = interaction(stat(.draw), colour)),
+                        size = 0.8) +
+      # Specify colors I want
+      scale_color_manual(values = outrun) +
+      # Create seperate plots for people with low, mid, and high WMC
+      facet_wrap(~span_group) +
+      # Specifying sampled draws in addition to the animated lines
+      transition_states(stat(.draw), 1, 2) +
+      enter_fade() + exit_fade() +
+      shadow_mark(future = TRUE, size = 0.25, color = &quot;gray50&quot;, alpha = 1/4) +
+      theme_minimal(base_size = 14) +
+      # Rotate x axis values so they are angled; center subtitle
+      theme(axis.text.x = element_text(angle = 45, hjust = 1),
+            plot.subtitle = element_text(face = &quot;bold&quot;, hjust = 0.5),
+            strip.text = element_text(size = 14),
+            legend.position = &quot;bottom&quot;)) +
+      # Change labels
+      labs(caption = &quot;Figure 3. Pupil diameter as a function of serial position 
+                      and time across encoding period for low WMC (n = 31), 
+                      medium WMC (n = 69), and high WMC (n = 33) individuals. 
+                      Serial position was broken down into Primacy (words 1–3), 
+                      Mid (words 4–7), and Recency (words 8–10) for graphical 
+                      purposes only.&quot;,
+           y = &quot;Mean Pupil Diameter (mm)&quot;,
+           x = &quot;Time (ms)&quot;,
+           colour = &quot;Serial Position&quot;) +
+      # Adjust/Relabel x axis values to make more sense to reader
+      scale_x_continuous(breaks = c(0, 2, 4, 6, 8, 10, 12, 14),
+                         labels = c(&quot;0&quot;, &quot;400&quot;, &quot;800&quot;, &quot;1,200&quot;, 
+                                    &quot;1,600&quot;, &quot;2,000&quot;, &quot;2,400&quot;,&quot;2,800&quot;),
+                         limits = c(0, NA)) +
+      # Adjust/Relabel y axis values to make more sense to reader
+      scale_y_continuous(breaks = c(-0.10, -0.05, 0.00, 0.05, 0.10, 0.15),
+                         label = c(&quot;-0.10&quot;, &quot;-0.05&quot;, &quot;0.00&quot;, 
+                                   &quot;0.05&quot;, &quot;0.10&quot;, &quot;0.15&quot;),
+                         limits = c(-0.10, 0.15))</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+plot3_fun + bbg_darktheme</code></pre>
+<p><img src="my-first-post_files/figure-html5/plot3_fun_print-1.gif" style="display: block; margin: auto;" /></p>
+</div>
 <h2 id="bonus-plot-4">BONUS Plot 4</h2>
 <p>This final plot is meant to be more digestible for the <strong>general public</strong>; it doesn’t examine pupillometry data. Rather, the plot shows the relation between recall accuracy and strategy type. The intended message to be communicated is that strategies that rely on more elaborative mental processes are associated with better memory performance.</p>
 <p>Here I prep the data and create a standard, but fancy-ish, bar-plot:</p>
@@ -1374,8 +1426,6 @@ strategy_data &lt;- data %&gt;%
          -ospan:-span_group,
          -primacy_recall:-ebin15w10pt4_mean) %&gt;%
   gather(key = strat_type, value = response, passive_read_strat:other_strat)
-
-#levels(as.factor(strategy_data$strat_type))
 
 # Filter out NAs, convert strategy type and score to factors, and recode strat
 strategy_data %&lt;&gt;%
@@ -1425,36 +1475,44 @@ plot4 &lt;- strategy_data %&gt;%
                 color = &quot;gray80&quot;) +
       # Provide seperate graphs for each strategy
       facet_wrap(~strat_type) +
+      # Specify color palette
       scale_fill_carto_d(palette = &quot;Burg&quot;) +
       theme_minimal() +
       # Delete legend, left-align caption, center title
       theme(legend.position=&quot;none&quot;,
             plot.caption = element_text(hjust = 0),
-            strip.text = element_text(size = 11),
+            strip.text = element_text(size = 12),
             plot.title = element_text(hjust = 0.5)) +
       #Modify labels
       labs(title = &quot;Recall Accuracy as a Function of Strategy Type and Use of Strategy&quot;,
                y = &quot;Mean Recall Accuracy&quot;,
                x = &quot;&quot;,
-               caption = &quot;&#39;No&#39; represents individuals who did not report using given strategy, whereas &#39;Yes&#39; represents those who used 
-said strategy. Note that performance is actually better among people who report not using a normatively 
-ineffective strategy (e.g., rote rehearsal or passive reading) than when people report using these strategies.&quot;) +
+               caption = &quot;&#39;No&#39; represents individuals who did not report using 
+                          given strategy, whereas &#39;Yes&#39; represents those who used 
+                          said strategy. Note that performance is actually better 
+                          among people who report not using a normatively 
+                          ineffective strategy (e.g., rote rehearsal or passive 
+                          reading) than when people report using these strategies.&quot;) +
       # Rename labels on x-axis
       scale_x_discrete(breaks = c(0, 1),
                        labels = c(&quot;No&quot;, &quot;Yes&quot;)) +
       # Modify names/range of y-axis 
       scale_y_continuous(breaks = c(0, 0.2, 0.4, 0.6, 0.8),
                          labels = c(&quot;0%&quot;, &quot;20%&quot;, &quot;40%&quot;, &quot;60%&quot;, &quot;80%&quot;),
-                         limits = c(0, 0.8))
-
+                         limits = c(0, 0.8))</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
 # Applying my theme to plot
 plot4 + bbg_darktheme</code></pre>
-<p><img src="my-first-post_files/figure-html5/plot4-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="my-first-post_files/figure-html5/plot4_print-1.png" width="768" style="display: block; margin: auto;" /></p>
 </div>
 <p>One problem with the above plot, however, is that a general audience may not understand what the error bars represent. So, instead, I’m going to map uncertainty with <code>density stripes</code>. Again, I recommend checking out the <a href="https://wilkelab.org/ungeviz/index.html">ungeviz</a> package for more details.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre class="r"><code>
+#Specify colors I want to use for density stripes 
 stripe_colors &lt;- c(&quot;#7F38A7&quot;, &quot;#42B9BD&quot;)
+#Specify colors I want to use for cooresponding mean stripe
 bar_colors &lt;- c(&quot;#5F2A7C&quot;, &quot;#31898C&quot;)
 
 plot4v2 &lt;- strategy_data %&gt;%
@@ -1473,7 +1531,8 @@ plot4v2 &lt;- strategy_data %&gt;%
         # Create seperate sections based on strategy type
         facet_wrap(~strat_type, nrow = 1) +
         # Print accuracy associated with each condition
-        geom_text(aes(mean_acc, response, label = paste0(round(mean_acc*100), &quot;%&quot;)),
+        geom_text(aes(mean_acc, response, 
+                      label = paste0(round(mean_acc*100), &quot;%&quot;)),
                   nudge_x = 0.005,
                   nudge_y = 0.3,
                   size = 3,
@@ -1484,23 +1543,30 @@ plot4v2 &lt;- strategy_data %&gt;%
               strip.text = element_text(size = 11),
               plot.title = element_text(hjust = 0.5)) +
         labs(title = &quot;Recall Accuracy as a Function of Strategy Type and Use of Strategy&quot;,
-                     y = &quot;&quot;,
-                     x = &quot;Mean Recall Accuracy&quot;,
-                     caption = &quot;&#39;No&#39; represents individuals who did not report using given strategy, whereas &#39;Yes&#39; represents those who used 
-said strategy. Note that performance is actually better among people who report not using a normatively 
-ineffective strategy (e.g., rote rehearsal or passive reading) than when people report using these strategies.&quot;) +
+             y = &quot;&quot;,
+             x = &quot;Mean Recall Accuracy&quot;,
+             caption = &quot;&#39;No&#39; represents individuals who did not report using given 
+                       strategy, whereas &#39;Yes&#39; represents those who used said strategy. 
+                       Note that performance is actually better among people who report 
+                       not using a normatively ineffective strategy (e.g., rote 
+                       rehearsal or passive reading) than when people report using 
+                       these strategies.&quot;) +
         # Rename labels on x-axis
         scale_y_discrete(breaks = c(0, 1),
                          labels = c(&quot;No&quot;, &quot;Yes&quot;)) +
         # Modify names/range of y-axis 
         scale_x_continuous(breaks = c(0.45, 0.50, 0.55, 0.6, 0.65, 0.70),
                            labels = c(&quot;0.45%&quot;, &quot;&quot;, &quot;55%&quot; , &quot;&quot;, &quot;65%&quot;, &quot;&quot;),
-                           limits = c(0.40, 0.70))
-
-plot4v2 + bbg_darktheme</code></pre>
-<p><img src="my-first-post_files/figure-html5/plot4v2-1.png" width="768" style="display: block; margin: auto;" /></p>
+                           limits = c(0.40, 0.70))</code></pre>
 </div>
-<p>To review, rather than using traditional error bars to map uncertainty, <code>R</code> provides us with many alternatives, such as bootstrapping/generation of outcome draws from a fitted model (plot 1), <code>geom_ribbon()</code> (plot 2), <code>geom_smooth()</code> (the publication-friendly version of plot 3), HOPS (the final version of plot 3), and <code>density stripes</code> (plot 4). It is my hope to learn how to also create an interactive plot.. stay tuned.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre class="r"><code>
+plot4v2 + bbg_darktheme</code></pre>
+<p><img src="my-first-post_files/figure-html5/plot4v2_print-1.png" width="768" style="display: block; margin: auto;" /></p>
+</div>
+<p>Personally, I think this looks pretty cool.</p>
+<h2 id="wrap-up">Wrap Up</h2>
+<p>To review, rather than using traditional error bars to map uncertainty, <code>R</code> provides us with many alternatives, such as bootstrapping/generation of outcome draws from a fitted model, <code>geom_ribbon()</code>, <code>geom_smooth()</code>, HOPS, and density stripes. It is my hope to learn how to also create an interactive plot.. stay tuned.</p>
 <p>Thanks for the read! :)</p>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
